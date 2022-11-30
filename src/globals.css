@@ -1,0 +1,11 @@
+html {
+    box-sizing: border-box;
+    font-family: Jetbrains Mono;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+    margin: 0;
+}
