@@ -12,7 +12,7 @@
   let endingNodeRow = 9;
   let endingNodeCol = 9;
 
-  let currentSize: keyof typeof sizes = "small";
+  let currentSize: keyof typeof sizes = "large";
   let currentSpeed: keyof typeof speeds = "slow";
 
   let isRunning: boolean;
@@ -74,19 +74,17 @@
   }
 
   function runAlgorithm() {
-    if (!isRunning) {
-      isRunning = true;
-      clearPath();
-      const result = dijkstra(
-        grid,
-        grid[startingNodeRow][startingNodeCol],
-        grid[endingNodeRow][endingNodeCol]
-      );
-      const nodesInShortestPathOrder = getNodesInShortestPathOrder(
-        grid[endingNodeRow][endingNodeCol]
-      );
-      animateDijkstra(result, nodesInShortestPathOrder);
-    }
+    isRunning = true;
+    clearPath();
+    const result = dijkstra(
+      grid,
+      grid[startingNodeRow][startingNodeCol],
+      grid[endingNodeRow][endingNodeCol]
+    );
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(
+      grid[endingNodeRow][endingNodeCol]
+    );
+    animateDijkstra(result, nodesInShortestPathOrder);
   }
 
   function onMouseClick(x: number, y: number) {
@@ -97,7 +95,7 @@
 
   let grid: GridNode[][];
   $: {
-    grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
+    grid = createGrid(sizes[currentSize].n, sizes[currentSize].m);
   }
 </script>
 

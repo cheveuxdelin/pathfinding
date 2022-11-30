@@ -11,7 +11,7 @@
 
 <header>
     <h1>Pathfinding Visualizer</h1>
-    <button on:click={runAlgorithm}
+    <button disabled={isRunning} on:click={runAlgorithm} class="button-run"
         >{isRunning ? "Running..." : "Run Algorithm"}</button
     >
     <div style="text-align: right; align-self: center;">
@@ -41,5 +41,12 @@
 
     button {
         padding: 10px 30px;
+    }
+
+    .button-run {
+        background-color: green;
+        color: white;
+        border: none;
+        border-radius: 30px;
     }
 </style>
