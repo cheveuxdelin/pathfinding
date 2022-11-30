@@ -42,6 +42,8 @@
   let currentSize: keyof typeof sizes = "small";
   let currentSpeed: keyof typeof speeds = "slow";
 
+  let isRunning: boolean;
+
   function animateDijkstra(
     visitedNodesInOrder: GridNode[],
     nodesInShortestPathOrder: GridNode[]
@@ -67,6 +69,9 @@
         grid[node.x][node.y].animationShortestPath = true;
       }, speeds[currentSpeed].shortestPathSPeed * i);
     }
+    setTimeout(() => {
+      isRunning = false;
+    }, (nodesInShortestPathOrder.length - 1) * speeds[currentSpeed].shortestPathSPeed);
   }
 
   function createGrid(n: number, m: number): GridNode[][] {
@@ -83,37 +88,52 @@
     return grid;
   }
 
+  function clearPath() {
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[0].length; j++) {
+        grid[i][j].animationVisited = false;
+        grid[i][j].animationShortestPath = false;
+      }
+    }
+  }
+  function resetGrid() {
+    grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
+  }
+
   function runAlgorithm() {
-    const result = dijkstra(
-      grid,
-      grid[startingNodeRow][startingNodeCol],
-      grid[endingNodeRow][endingNodeCol]
-    );
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(
-      grid[endingNodeRow][endingNodeCol]
-    );
-    animateDijkstra(result, nodesInShortestPathOrder);
+    if (!isRunning) {
+      isRunning = true;
+      clearPath();
+      const result = dijkstra(
+        grid,
+        grid[startingNodeRow][startingNodeCol],
+        grid[endingNodeRow][endingNodeCol]
+      );
+      const nodesInShortestPathOrder = getNodesInShortestPathOrder(
+        grid[endingNodeRow][endingNodeCol]
+      );
+      animateDijkstra(result, nodesInShortestPathOrder);
+    }
   }
 
   function onMouseClick(x: number, y: number) {
-    grid[x][y].iswall = !grid[x][y].iswall;
+    if (!isRunning) {
+      grid[x][y].iswall = !grid[x][y].iswall;
+    }
   }
 
   let grid: GridNode[][];
   $: {
     grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
   }
-  $: {
-    console.log(currentSize);
-  }
 </script>
 
 <HeaderComponent
+  {isRunning}
   {runAlgorithm}
+  {resetGrid}
   bind:currentSize
   bind:currentSpeed
-  resetGrid={() =>
-    (grid = createGrid(sizes[currentSize].m, sizes[currentSize].m))}
 />
 
 <main>

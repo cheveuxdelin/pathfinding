@@ -1,4 +1,7 @@
 <script lang="ts">
+    import App from "../App.svelte";
+    import GridNodeComponent from "./GridNodeComponent.svelte";
+
     const sizes = {
         small: {
             n: 10,
@@ -28,6 +31,7 @@
         },
     };
 
+    export let isRunning: boolean;
     export let resetGrid: () => void;
     export let runAlgorithm: () => void;
     export let currentSize: string;
@@ -36,7 +40,9 @@
 
 <header>
     <h1>Pathfinding Visualizer</h1>
-    <button on:click={runAlgorithm}>Run Algorithm</button>
+    <button on:click={runAlgorithm}
+        >{isRunning ? "Running..." : "Run Algorithm"}</button
+    >
     <div style="text-align: right; align-self: center;">
         <select bind:value={currentSize}>
             {#each Object.keys(sizes) as size}
@@ -54,7 +60,7 @@
 
 <style>
     header {
-        background-color: rebeccapurple;
+        background-color: rgb(0, 30, 50);
         color: white;
         padding: 20px;
         display: grid;
