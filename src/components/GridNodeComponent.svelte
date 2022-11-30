@@ -25,7 +25,7 @@
         display: table-cell;
         width: 30px;
         height: 30px;
-        border: 1px solid black;
+        border: 1px solid slategray;
     }
 
     .visited {

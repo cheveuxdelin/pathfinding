@@ -1,9 +1,10 @@
 <script lang="ts">
   import dijkstra, { getNodesInShortestPathOrder } from "./algorithms/dijkstra";
   import "./globals.css";
-  import GridNode from "./GridNode";
-  import GridNodeComponent from "./GridNodeComponent.svelte";
-  import HeaderComponent from "./HeaderComponent.svelte";
+  import GridNode from "./models/GridNode";
+  import GridNodeComponent from "./components/GridNodeComponent.svelte";
+  import HeaderComponent from "./components/HeaderComponent.svelte";
+
   let startingNodeRow = 4;
   let startingNodeCol = 4;
   let endingNodeRow = 9;
@@ -98,24 +99,22 @@
     grid[x][y].iswall = !grid[x][y].iswall;
   }
 
-  let grid;
+  let grid: GridNode[][];
   $: {
     grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
   }
+  $: {
+    console.log(currentSize);
+  }
 </script>
 
-<HeaderComponent />
-
-<select bind:value={currentSize}>
-  {#each Object.keys(sizes) as size}
-    <option value={size}>{size}</option>
-  {/each}
-</select>
-<select bind:value={currentSpeed}>
-  {#each Object.keys(speeds) as speed}
-    <option value={speed}>{speed}</option>
-  {/each}
-</select>
+<HeaderComponent
+  {runAlgorithm}
+  bind:currentSize
+  bind:currentSpeed
+  resetGrid={() =>
+    (grid = createGrid(sizes[currentSize].m, sizes[currentSize].m))}
+/>
 
 <main>
   <div class="grid">
@@ -136,14 +135,13 @@
       </div>
     {/each}
   </div>
-  <button on:click={runAlgorithm}>generate path</button>
 </main>
 
 <style>
   .grid {
     display: table;
     width: fit-content;
-    border: 1px solid black;
+    border: 1px solid slategrey;
     margin: auto;
   }
 

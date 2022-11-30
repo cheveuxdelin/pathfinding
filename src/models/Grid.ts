@@ -1,4 +1,4 @@
-import GridNode from "../GridNode";
+import GridNode from "./GridNode";
 
 export class Grid {
     private grid: GridNode[][];

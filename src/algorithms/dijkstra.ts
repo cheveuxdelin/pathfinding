@@ -1,4 +1,4 @@
-import type GridNode from "../GridNode";
+import type GridNode from "../models/GridNode";
 import Heap from 'heap-js';
 
 
