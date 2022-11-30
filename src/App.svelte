@@ -23,8 +23,23 @@
       m: 50,
     },
   };
+  const speeds = {
+    slow: {
+      visitedSpeed: 50,
+      shortestPathSPeed: 100,
+    },
+    medium: {
+      visitedSpeed: 25,
+      shortestPathSPeed: 70,
+    },
+    fast: {
+      visitedSpeed: 10,
+      shortestPathSPeed: 50,
+    },
+  };
 
   let currentSize: keyof typeof sizes = "small";
+  let currentSpeed: keyof typeof speeds = "slow";
 
   function animateDijkstra(
     visitedNodesInOrder: GridNode[],
@@ -34,13 +49,13 @@
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
           animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
+        }, speeds[currentSpeed].visitedSpeed * i);
         return;
       }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         grid[node.x][node.y].animationVisited = true;
-      }, 10 * i);
+      }, speeds[currentSpeed].visitedSpeed * i);
     }
   }
 
@@ -49,7 +64,7 @@
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
         grid[node.x][node.y].animationShortestPath = true;
-      }, 50 * i);
+      }, speeds[currentSpeed].shortestPathSPeed * i);
     }
   }
 
@@ -94,6 +109,11 @@
 <select bind:value={currentSize}>
   {#each Object.keys(sizes) as size}
     <option value={size}>{size}</option>
+  {/each}
+</select>
+<select bind:value={currentSpeed}>
+  {#each Object.keys(speeds) as speed}
+    <option value={speed}>{speed}</option>
   {/each}
 </select>
 
