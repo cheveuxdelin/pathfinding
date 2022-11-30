@@ -24,7 +24,7 @@
     },
   };
 
-  let currentSize: string = "small";
+  let currentSize: keyof typeof sizes = "small";
 
   function animateDijkstra(
     visitedNodesInOrder: GridNode[],
@@ -85,7 +85,7 @@
 
   let grid;
   $: {
-    grid = createGrid(sizes[currentSize].n, sizes[currentSize].m);
+    grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
   }
 </script>
 
