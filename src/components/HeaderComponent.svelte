@@ -1,35 +1,6 @@
 <script lang="ts">
-    import App from "../App.svelte";
-    import GridNodeComponent from "./GridNodeComponent.svelte";
-
-    const sizes = {
-        small: {
-            n: 10,
-            m: 10,
-        },
-        medium: {
-            n: 12,
-            m: 25,
-        },
-        large: {
-            n: 25,
-            m: 50,
-        },
-    };
-    const speeds = {
-        slow: {
-            visitedSpeed: 50,
-            shortestPathSPeed: 100,
-        },
-        medium: {
-            visitedSpeed: 25,
-            shortestPathSPeed: 70,
-        },
-        fast: {
-            visitedSpeed: 10,
-            shortestPathSPeed: 50,
-        },
-    };
+    import sizes from "../values/sizes";
+    import speeds from "../values/speeds";
 
     export let isRunning: boolean;
     export let resetGrid: () => void;

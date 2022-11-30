@@ -4,40 +4,13 @@
   import GridNode from "./models/GridNode";
   import GridNodeComponent from "./components/GridNodeComponent.svelte";
   import HeaderComponent from "./components/HeaderComponent.svelte";
+  import speeds from "./values/speeds";
+  import sizes from "./values/sizes";
 
   let startingNodeRow = 4;
   let startingNodeCol = 4;
   let endingNodeRow = 9;
   let endingNodeCol = 9;
-
-  const sizes = {
-    small: {
-      n: 10,
-      m: 10,
-    },
-    medium: {
-      n: 12,
-      m: 25,
-    },
-    large: {
-      n: 25,
-      m: 50,
-    },
-  };
-  const speeds = {
-    slow: {
-      visitedSpeed: 50,
-      shortestPathSPeed: 100,
-    },
-    medium: {
-      visitedSpeed: 25,
-      shortestPathSPeed: 70,
-    },
-    fast: {
-      visitedSpeed: 10,
-      shortestPathSPeed: 50,
-    },
-  };
 
   let currentSize: keyof typeof sizes = "small";
   let currentSpeed: keyof typeof speeds = "slow";
