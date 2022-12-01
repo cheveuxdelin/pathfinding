@@ -95,11 +95,15 @@
         if (!grid[x][y].iswall) {
           isSelectingStartingNode = false;
           grid[x][y].isStart = true;
+          startingNodeRow = x;
+          startingNodeCol = y;
         }
       } else if (isSelectingEndingNode) {
         if (!grid[x][y].iswall) {
           isSelectingEndingNode = false;
           grid[x][y].isEnd = true;
+          endingNodeRow = x;
+          endingNodeCol = y;
         }
       } else if (grid[x][y].isStart) {
         isSelectingStartingNode = true;
