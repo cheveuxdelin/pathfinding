@@ -7,17 +7,21 @@
     export let isWall: boolean;
     export let visited: boolean;
     export let shortestPath: boolean;
+    export let isSelectingStartingNode: boolean;
+    export let isSelectingEndingNode: boolean;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
-    class={`gridnode 
-    ${visited ? "visited" : ""}
-    ${shortestPath ? "shortest-path" : ""}
-    ${isWall ? "wall" : ""}
-    `}
-    style={`background-color: ${isStart ? "green" : isEnd ? "red" : ""}`}
     on:click={() => onMouseClick(x, y)}
+    class="gridnode"
+    class:isStart
+    class:isEnd
+    class:isWall
+    class:visited
+    class:shortestPath
+    class:isSelectingStartingNode
+    class:isSelectingEndingNode
 />
 
 <style>
@@ -26,6 +30,14 @@
         width: 30px;
         height: 30px;
         border: 1px solid slategray;
+    }
+
+    .isStart {
+        background-color: green;
+    }
+
+    .isEnd {
+        background-color: red;
     }
 
     .visited {
@@ -39,8 +51,16 @@
         animation-play-state: running;
     }
 
-    .wall {
+    .isWall {
         background-color: grey;
+    }
+
+    .isSelectingStartingNode:hover {
+        background-color: rgb(0, 150, 0);
+    }
+
+    .isSelectingEndingNode:hover {
+        background-color: rgb(150, 0, 0);
     }
 
     @keyframes visitedAnimation {
@@ -65,7 +85,7 @@
         }
     }
 
-    .shortest-path {
+    .shortestPath {
         animation-name: shortestPath;
         animation-duration: 1.5s;
         animation-timing-function: ease-out;

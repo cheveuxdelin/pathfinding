@@ -15,7 +15,9 @@
   let currentSize: keyof typeof sizes = "large";
   let currentSpeed: keyof typeof speeds = "slow";
 
-  let isRunning: boolean;
+  let isRunning: boolean = false;
+  let isSelectingStartingNode: boolean = false;
+  let isSelectingEndingNode: boolean = false;
 
   function animateDijkstra(
     visitedNodesInOrder: GridNode[],
@@ -89,7 +91,25 @@
 
   function onMouseClick(x: number, y: number) {
     if (!isRunning) {
-      grid[x][y].iswall = !grid[x][y].iswall;
+      if (isSelectingStartingNode) {
+        if (!grid[x][y].iswall) {
+          isSelectingStartingNode = false;
+          grid[x][y].isStart = true;
+        }
+      } else if (isSelectingEndingNode) {
+        if (!grid[x][y].iswall) {
+          isSelectingEndingNode = false;
+          grid[x][y].isEnd = true;
+        }
+      } else if (grid[x][y].isStart) {
+        isSelectingStartingNode = true;
+        grid[x][y].isStart = false;
+      } else if (grid[x][y].isEnd) {
+        isSelectingEndingNode = true;
+        grid[x][y].isEnd = false;
+      } else {
+        grid[x][y].iswall = !grid[x][y].iswall;
+      }
     }
   }
 
@@ -120,6 +140,8 @@
             x={gridNode.x}
             y={gridNode.y}
             {onMouseClick}
+            {isSelectingStartingNode}
+            {isSelectingEndingNode}
           />
         {/each}
       </div>
