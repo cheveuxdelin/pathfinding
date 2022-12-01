@@ -99,15 +99,14 @@
   }
 </script>
 
-<HeaderComponent
-  {isRunning}
-  {runAlgorithm}
-  {resetGrid}
-  bind:currentSize
-  bind:currentSpeed
-/>
-
 <main>
+  <HeaderComponent
+    {isRunning}
+    {runAlgorithm}
+    {resetGrid}
+    bind:currentSize
+    bind:currentSpeed
+  />
   <div class="grid">
     {#each grid as row, rowIndex (rowIndex)}
       <div class="row">
@@ -126,9 +125,16 @@
       </div>
     {/each}
   </div>
+  <div />
 </main>
 
 <style>
+  main {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+  }
+
   .grid {
     display: table;
     width: fit-content;

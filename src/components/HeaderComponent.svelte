@@ -31,12 +31,12 @@
 
 <style>
     header {
-        background-color: rgb(0, 30, 50);
         color: white;
         padding: 20px;
         display: grid;
         grid-template-columns: 1fr auto 1fr;
         place-content: center;
+        height: 100px;
     }
 
     button {

@@ -4,11 +4,11 @@ const sizes = {
         m: 10,
     },
     medium: {
-        n: 12,
-        m: 25,
+        n: 15,
+        m: 15,
     },
     large: {
-        n: 15,
+        n: 20,
         m: 20,
     },
 };
