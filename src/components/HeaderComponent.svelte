@@ -39,14 +39,19 @@
         height: 100px;
     }
 
-    button {
-        padding: 10px 30px;
+    button,
+    select {
+        background-color: slategrey;
+        color: white;
+        border: none;
+        width: 100px;
+        height: 30px;
     }
 
     .button-run {
-        background-color: green;
-        color: white;
-        border: none;
-        border-radius: 30px;
+        background-color: rgb(0, 90, 70);
+        width: 150px;
+        height: 30px;
+        border-radius: 10px;
     }
 </style>
