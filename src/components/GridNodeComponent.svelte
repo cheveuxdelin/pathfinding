@@ -14,7 +14,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div
     on:click={() => onMouseClick(x, y)}
-    class="gridnode"
+    class="table-cell w-[30px] h-[30px] border-slate-300 border"
     class:isStart
     class:isEnd
     class:isWall
@@ -25,13 +25,6 @@
 />
 
 <style>
-    .gridnode {
-        display: table-cell;
-        width: 30px;
-        height: 30px;
-        border: 1px solid slategray;
-    }
-
     .isStart {
         background-color: green;
     }

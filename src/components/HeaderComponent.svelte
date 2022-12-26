@@ -1,12 +1,13 @@
 <script lang="ts">
     import sizes from "../values/sizes";
     import speeds from "../values/speeds";
-
+    import algorithms from "../values/algorithms";
     export let isRunning: boolean;
     export let resetGrid: () => void;
     export let runAlgorithm: () => void;
-    export let currentSize: string;
-    export let currentSpeed: string;
+    export let selectedSize: keyof typeof sizes;
+    export let selectedSpeed: keyof typeof speeds;
+    export let selectedAlgorithm: keyof typeof algorithms;
 </script>
 
 <header>
@@ -15,14 +16,19 @@
         >{isRunning ? "Running..." : "Run Algorithm"}</button
     >
     <div style="text-align: right; align-self: center;">
-        <select bind:value={currentSize}>
+        <select bind:value={selectedSize}>
             {#each Object.keys(sizes) as size}
                 <option value={size}>{size}</option>
             {/each}
         </select>
-        <select bind:value={currentSpeed}>
+        <select bind:value={selectedSpeed}>
             {#each Object.keys(speeds) as speed}
                 <option value={speed}>{speed}</option>
+            {/each}
+        </select>
+        <select bind:value={selectedAlgorithm}>
+            {#each Object.keys(algorithms) as algorithm}
+                <option value={algorithm}>{algorithm}</option>
             {/each}
         </select>
         <button on:click={resetGrid}>reset</button>

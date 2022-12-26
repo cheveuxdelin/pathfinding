@@ -1,4 +1,5 @@
 import App from './App.svelte'
+import "./globals.css";
 import "@fontsource/jetbrains-mono";
 
 const app = new App({

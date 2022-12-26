@@ -1,52 +1,74 @@
 <script lang="ts">
-  import dijkstra, { getNodesInShortestPathOrder } from "./algorithms/dijkstra";
-  import "./globals.css";
   import GridNode from "./models/GridNode";
   import GridNodeComponent from "./components/GridNodeComponent.svelte";
   import HeaderComponent from "./components/HeaderComponent.svelte";
   import speeds from "./values/speeds";
   import sizes from "./values/sizes";
+  import algorithms from "./values/algorithms";
 
-  let startingNodeRow = 4;
-  let startingNodeCol = 4;
+  let startingNodeRow = 0;
+  let startingNodeCol = 0;
   let endingNodeRow = 9;
   let endingNodeCol = 9;
+  const timeouts = [];
 
-  let currentSize: keyof typeof sizes = "large";
-  let currentSpeed: keyof typeof speeds = "slow";
+  let selectedSize: keyof typeof sizes = "small";
+  let selectedSpeed: keyof typeof speeds = "fast";
+  let selectedAlgorithm: keyof typeof algorithms = "a*";
 
   let isRunning: boolean = false;
   let isSelectingStartingNode: boolean = false;
   let isSelectingEndingNode: boolean = false;
 
-  function animateDijkstra(
+  function getNodesInShortestPathOrder(finishNode: GridNode): GridNode[] {
+    if (finishNode.previousNode === null) {
+      return [];
+    }
+    const nodesInShortestPathOrder = [];
+    let currentNode = finishNode;
+    while (currentNode !== null) {
+      nodesInShortestPathOrder.unshift(currentNode);
+      currentNode = currentNode.previousNode;
+    }
+    return nodesInShortestPathOrder;
+  }
+
+  function animateVisitedNodes(
     visitedNodesInOrder: GridNode[],
     nodesInShortestPathOrder: GridNode[]
   ) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          animateShortestPath(nodesInShortestPathOrder);
-        }, speeds[currentSpeed].visitedSpeed * i);
-        return;
+        timeouts.push(
+          setTimeout(() => {
+            animateShortestPath(nodesInShortestPathOrder);
+          }, speeds[selectedSpeed].visitedSpeed * i)
+        );
+      } else {
+        timeouts.push(
+          setTimeout(() => {
+            const node = visitedNodesInOrder[i];
+            grid[node.x][node.y].animationVisited = true;
+          }, speeds[selectedSpeed].visitedSpeed * i)
+        );
       }
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        grid[node.x][node.y].animationVisited = true;
-      }, speeds[currentSpeed].visitedSpeed * i);
     }
   }
 
   function animateShortestPath(nodesInShortestPathOrder: GridNode[]) {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-      setTimeout(() => {
-        const node = nodesInShortestPathOrder[i];
-        grid[node.x][node.y].animationShortestPath = true;
-      }, speeds[currentSpeed].shortestPathSPeed * i);
+      timeouts.push(
+        setTimeout(() => {
+          const node = nodesInShortestPathOrder[i];
+          grid[node.x][node.y].animationShortestPath = true;
+        }, speeds[selectedSpeed].shortestPathSPeed * i)
+      );
     }
-    setTimeout(() => {
-      isRunning = false;
-    }, (nodesInShortestPathOrder.length - 1) * speeds[currentSpeed].shortestPathSPeed);
+    timeouts.push(
+      setTimeout(() => {
+        isRunning = false;
+      }, nodesInShortestPathOrder.length * speeds[selectedSpeed].shortestPathSPeed)
+    );
   }
 
   function createGrid(n: number, m: number): GridNode[][] {
@@ -72,13 +94,30 @@
     }
   }
   function resetGrid() {
-    grid = createGrid(sizes[currentSize].m, sizes[currentSize].m);
+    while (timeouts.length) {
+      clearInterval(timeouts[timeouts.length - 1]);
+      timeouts.pop();
+    }
+    //grid = createGrid(sizes[selectedSize].m, sizes[selectedSize].m);
+    clearPath();
+
+    for (let i = 0; i < sizes[selectedSize].m; i++) {
+      for (let j = 0; j < sizes[selectedSize].m; j++) {
+        grid[i][j].isVisited = false;
+      }
+    }
+    isRunning = false;
   }
 
   function runAlgorithm() {
     isRunning = true;
     clearPath();
-    const result = dijkstra(
+    for (let i = 0; i < sizes[selectedSize].m; i++) {
+      for (let j = 0; j < sizes[selectedSize].m; j++) {
+        grid[i][j].isVisited = false;
+      }
+    }
+    const result = algorithms[selectedAlgorithm](
       grid,
       grid[startingNodeRow][startingNodeCol],
       grid[endingNodeRow][endingNodeCol]
@@ -86,7 +125,7 @@
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(
       grid[endingNodeRow][endingNodeCol]
     );
-    animateDijkstra(result, nodesInShortestPathOrder);
+    animateVisitedNodes(result, nodesInShortestPathOrder);
   }
 
   function onMouseClick(x: number, y: number) {
@@ -116,11 +155,8 @@
       }
     }
   }
-
   let grid: GridNode[][];
-  $: {
-    grid = createGrid(sizes[currentSize].n, sizes[currentSize].m);
-  }
+  $: grid = createGrid(sizes[selectedSize].n, sizes[selectedSize].m);
 </script>
 
 <main>
@@ -128,8 +164,9 @@
     {isRunning}
     {runAlgorithm}
     {resetGrid}
-    bind:currentSize
-    bind:currentSpeed
+    bind:selectedSize
+    bind:selectedSpeed
+    bind:selectedAlgorithm
   />
   <div class="grid">
     {#each grid as row, rowIndex (rowIndex)}

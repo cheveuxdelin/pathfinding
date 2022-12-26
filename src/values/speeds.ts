@@ -1,4 +1,4 @@
-const speeds = {
+export default {
     slow: {
         visitedSpeed: 50,
         shortestPathSPeed: 100,
@@ -12,5 +12,3 @@ const speeds = {
         shortestPathSPeed: 50,
     },
 };
-
-export default speeds;

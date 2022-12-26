@@ -1,4 +1,4 @@
-const sizes = {
+export default {
     small: {
         n: 10,
         m: 10,
@@ -12,5 +12,3 @@ const sizes = {
         m: 20,
     },
 };
-
-export default sizes

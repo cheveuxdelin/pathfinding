@@ -13,9 +13,11 @@ export default class GridNode {
     constructor(x: number, y: number) {
         this.isStart = false;
         this.isEnd = false;
+        this.iswall = false;
         this.x = x;
         this.y = y;
         this.distance = Infinity;
+        this.isVisited = false;
         this.previousNode = null;
         this.animationVisited = false;
         this.animationShortestPath = false;
