@@ -33,6 +33,10 @@
         background-color: red;
     }
 
+    .isWall {
+        background-color: grey;
+    }
+
     .visited {
         animation-name: visitedAnimation;
         animation-duration: 1.5s;
@@ -42,18 +46,6 @@
         animation-iteration-count: 1;
         animation-fill-mode: forwards;
         animation-play-state: running;
-    }
-
-    .isWall {
-        background-color: grey;
-    }
-
-    .isSelectingStartingNode:hover {
-        background-color: rgb(0, 150, 0);
-    }
-
-    .isSelectingEndingNode:hover {
-        background-color: rgb(150, 0, 0);
     }
 
     @keyframes visitedAnimation {
@@ -76,6 +68,14 @@
             transform: scale(1);
             background-color: rgba(0, 190, 218, 0.75);
         }
+    }
+
+    .isSelectingStartingNode:hover {
+        background-color: rgb(0, 150, 0);
+    }
+
+    .isSelectingEndingNode:hover {
+        background-color: rgb(150, 0, 0);
     }
 
     .shortestPath {

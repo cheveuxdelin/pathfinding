@@ -1,7 +1,6 @@
 import type GridNode from "../models/GridNode";
 import Heap from 'heap-js';
 
-
 // https://www.youtube.com/watch?v=-L-WgKMFuhE
 export default function astar(grid: GridNode[][], startingNode: GridNode, endingNode: GridNode): GridNode[] {
     const axis = [0, 1, 0, -1, 0];
@@ -11,7 +10,7 @@ export default function astar(grid: GridNode[][], startingNode: GridNode, ending
     heap.push([0, startingNode]);
     while (heap.length) {
         const [_, currentNode] = heap.pop();
-        if (!currentNode.isVisited) {
+        if (!currentNode.isVisited && !currentNode.iswall) {
             currentNode.isVisited = true;
             visitingOrder.push(currentNode);
             if (currentNode.isEnd) break;
@@ -32,23 +31,3 @@ export default function astar(grid: GridNode[][], startingNode: GridNode, ending
     }
     return visitingOrder;
 }
-
-
-/*
-const heap = new Heap<[number, GridNode]>((a, b) => (a[0] + a[1].distance) - (b[0] + b[1].distance) || a[0] - b[0]);
-const fCostA = a[0] + a[1].distance;
-        const fCostB = b[0] + b[1].distance;
-        if (fCostA < fCostB) {
-            return -1;
-        } else if (fCostA > fCostB) {
-            return 1;
-        } else {
-            if (a[0] < b[0]) {
-                return -1;
-            } else if (a[0] > b[0]) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-*/

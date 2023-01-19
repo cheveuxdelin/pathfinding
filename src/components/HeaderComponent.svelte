@@ -3,6 +3,7 @@
     import speeds from "../values/speeds";
     import algorithms from "../values/algorithms";
     export let isRunning: boolean;
+    export let clearPath: () => void;
     export let resetGrid: () => void;
     export let runAlgorithm: () => void;
     export let selectedSize: keyof typeof sizes;
@@ -31,7 +32,8 @@
                 <option value={algorithm}>{algorithm}</option>
             {/each}
         </select>
-        <button on:click={resetGrid}>reset</button>
+        <button on:click={clearPath}>clear path</button>
+        <button on:click={resetGrid}>reset grid</button>
     </div>
 </header>
 

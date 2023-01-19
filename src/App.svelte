@@ -115,6 +115,7 @@
     for (let i = 0; i < sizes[selectedSize].m; i++) {
       for (let j = 0; j < sizes[selectedSize].m; j++) {
         grid[i][j].isVisited = false;
+        grid[i][j].previousNode = null;
       }
     }
     const result = algorithms[selectedAlgorithm](
@@ -159,18 +160,19 @@
   $: grid = createGrid(sizes[selectedSize].n, sizes[selectedSize].m);
 </script>
 
-<main>
+<main class="h-screen grid" style="grid-template-rows: 1fr auto 1fr;">
   <HeaderComponent
     {isRunning}
     {runAlgorithm}
     {resetGrid}
+    {clearPath}
     bind:selectedSize
     bind:selectedSpeed
     bind:selectedAlgorithm
   />
-  <div class="grid">
+  <div class="table w-fit border-slate-300 border m-auto">
     {#each grid as row, rowIndex (rowIndex)}
-      <div class="row">
+      <div class="table-row w-full">
         {#each row as gridNode, gridNodeIndex (gridNodeIndex)}
           <GridNodeComponent
             isStart={gridNode.isStart}
@@ -190,23 +192,3 @@
   </div>
   <div />
 </main>
-
-<style>
-  main {
-    height: 100vh;
-    display: grid;
-    grid-template-rows: 1fr auto 1fr;
-  }
-
-  .grid {
-    display: table;
-    width: fit-content;
-    border: 1px solid slategrey;
-    margin: auto;
-  }
-
-  .row {
-    display: table-row;
-    width: 100%;
-  }
-</style>
